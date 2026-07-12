@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CCHS project map — v0.1</title>
+<style>
+  body { font-family: sans-serif; background: #f1efe8; color: #2c2c2a; padding: 2rem; }
+  button, select { padding: 6px 12px; border-radius: 6px; border: 1px solid #b4b2a9; background: white; }
+  #floor-view { position: relative; width: 100%; height: 340px; background: #fff;
+                border-radius: 8px; border: 1px solid #b4b2a9; margin-top: 1rem; }
+  .bubble { position: absolute; width: 96px; padding: 8px 10px; border-radius: 12px;
+            font-size: 13px; text-align: center; color: #26215c; background: #eeedfe; }
+  .tree-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+               gap: 12px; margin-top: 1rem; }
+  .tree-col { background: #f1efe8; border-radius: 8px; padding: 12px; }
+  .tree-col h4 { margin: 0 0 8px; font-size: 13px; color: #5f5e5a; }
+  .tree-item { padding: 6px 10px; border-radius: 8px; font-size: 13px; margin-bottom: 6px;
+               background: #eeedfe; color: #26215c; }
+</style>
+</head>
+<body>
+
+<h2>CCHS project map — v0.1</h2>
+
+<div>
+  <button id="btn-floor" onclick="setMode('floor')">Floor plan</button>
+  <button id="btn-tree" onclick="setMode('tree')">Tree</button>
+  <span>Group by</span>
+  <select id="axis" onchange="render()">
+    <option value="type">Type</option>
+    <option value="recency">Recency</option>
+    <option value="specs">Specs</option>
+  </select>
+</div>
+
+<div id="floor-view"></div>
+<div id="tree-view" style="display:none;"></div>
+
+<script>
+let projects = [];
+
+function setMode(m) {
+  document.getElementById('floor-view').style.display = m === 'floor' ? 'block' : 'none';
+  document.getElementById('tree-view').style.display = m === 'tree' ? 'block' : 'none';
+}
+
+function render() {
+  const floor = document.getElementById('floor-view');
+  floor.innerHTML = '';
+  projects.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'bubble';
+    el.style.left = p.x + 'px';
+    el.style.top = p.y + 'px';
+    el.textContent = p.name;
+    el.title = p.description || '';
+    floor.appendChild(el);
+  });
+
+  const axis = document.getElementById('axis').value;
+  const groups = {};
+  projects.forEach(p => {
+    const keys = axis === 'specs' ? (p.specs || []) : [p[axis]];
+    keys.forEach(k => { (groups[k] = groups[k] || []).push(p); });
+  });
+
+  const tree = document.getElementById('tree-view');
+  tree.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'tree-wrap';
+  Object.keys(groups).forEach(k => {
+    const col = document.createElement('div');
+    col.className = 'tree-col';
+    const h = document.createElement('h4');
+    h.textContent = k;
+    col.appendChild(h);
+    groups[k].forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'tree-item';
+      item.textContent = p.name;
+      col.appendChild(item);
+    });
+    wrap.appendChild(col);
+  });
+  tree.appendChild(wrap);
+}
+
+fetch('/api/projects')
+  .then(r => r.json())
+  .then(data => { projects = data; setMode('floor'); render(); });
+</script>
+</body>
+</html>

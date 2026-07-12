@@ -1,0 +1,9 @@
+name: PSU rail splitter
+x: 200
+y: 90
+type: boring-necessary
+recency: living-memory
+specs: [analogue]
+status: complete
+owner: Hank
+description: Splits a bench PSU output into isolated rails.
