@@ -1,9 +1,0 @@
-name: Kiln controller
-x: 340
-y: 50
-type: boring-necessary
-recency: living-memory
-specs: [reverse-engineering, design]
-status: complete
-owner: Hank
-description: Custom controller for the space kiln, filmed and released.
