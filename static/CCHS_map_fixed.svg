@@ -6,7 +6,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   sodipodi:docname="CCHS map.svg"
+   sodipodi:docname="CCHS_map_fixed.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -21,9 +21,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.76410288"
-     inkscape:cx="1303.4894"
-     inkscape:cy="597.43264"
+     inkscape:zoom="8.6448372"
+     inkscape:cx="63.56395"
+     inkscape:cy="73.974788"
      inkscape:window-width="2560"
      inkscape:window-height="1494"
      inkscape:window-x="-11"
@@ -43,13 +43,6 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
-       id="rect1"
-       width="45"
-       height="260"
-       x="371.03693"
-       y="5.8763394" />
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
        id="rect2"
@@ -131,22 +124,6 @@
        y="111.87634" />
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
-       id="rect8"
-       width="9.2228279"
-       height="3.2277825"
-       x="406.82767"
-       y="-208.12883"
-       transform="scale(1,-1)" />
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
-       id="rect8-1"
-       width="4.7213616"
-       height="3.2277825"
-       x="371.03693"
-       y="-208.12883"
-       transform="scale(1,-1)" />
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
        id="rect9"
        width="6"
        height="114.09486"
@@ -180,6 +157,20 @@
        height="9"
        x="377.0369"
        y="190.62271" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
+       id="rect13-9"
+       width="32.072388"
+       height="5.9924245"
+       x="371.03693"
+       y="222.3364" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
+       id="rect13-9-5"
+       width="23.975069"
+       height="5.9924245"
+       x="371.03693"
+       y="205.65695" />
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.200001;stroke-linecap:square"
        id="rect10-7"
@@ -487,18 +478,18 @@
     <text
        xml:space="preserve"
        style="font-style:italic;font-size:4.93889px;line-height:1;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Italic';text-align:center;letter-spacing:0.0291042px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
-       x="387.33932"
-       y="218.04787"
+       x="385.21265"
+       y="216.00299"
        id="text27-6-1-4-6"><tspan
          sodipodi:role="line"
          style="font-size:4.93889px;line-height:1;fill:#000000;stroke:none;stroke-width:0.2"
-         x="387.33932"
-         y="218.04787"
+         x="385.21265"
+         y="216.00299"
          id="tspan27-5-3-0-1">Member box </tspan><tspan
          sodipodi:role="line"
          style="font-size:4.93889px;line-height:1;fill:#000000;stroke:none;stroke-width:0.2"
-         x="387.35388"
-         y="222.98676"
+         x="385.2272"
+         y="220.94188"
          id="tspan30">storage area</tspan></text>
     <text
        xml:space="preserve"
@@ -596,5 +587,128 @@
          x="448.09698"
          y="275.90686"
          id="tspan37">of some bits = eyeballed</tspan></text>
+    <rect
+       style="fill:#000000;stroke-width:0.755906;stroke-linecap:square"
+       id="rect17"
+       width="16.525965"
+       height="0.75590551"
+       x="371.03693"
+       y="5.1204338" />
+    <rect
+       style="fill:#000000;stroke-width:0.755905;stroke-linecap:square"
+       id="rect17-8"
+       width="260.75592"
+       height="0.75590551"
+       x="5.1204333"
+       y="-371.03693"
+       transform="rotate(90)" />
+    <rect
+       style="fill:#000000;stroke-width:0.755904;stroke-linecap:square"
+       id="rect17-5"
+       width="45.755905"
+       height="0.75590551"
+       x="370.28104"
+       y="265.87634" />
+    <rect
+       style="fill:#000000;stroke-width:0.755906;stroke-linecap:square"
+       id="rect17-1"
+       width="41.961952"
+       height="0.75590551"
+       x="224.67032"
+       y="-416.79285"
+       transform="rotate(90)" />
+    <rect
+       style="fill:#000000;stroke-width:0.755907;stroke-linecap:square"
+       id="rect17-7"
+       width="4.0273304"
+       height="0.75590551"
+       x="412.00958"
+       y="228.32883" />
+    <rect
+       style="fill:#000000;stroke-width:0.755907;stroke-linecap:square"
+       id="rect17-7-2"
+       width="32.072403"
+       height="0.75590551"
+       x="371.03693"
+       y="228.32883" />
+    <rect
+       style="fill:#000000;stroke-width:0.755908;stroke-linecap:square"
+       id="rect18"
+       width="4.8701386"
+       height="0.75590551"
+       x="411.16678"
+       y="5.1204338" />
+    <rect
+       style="fill:#000000;stroke-width:0.755906;stroke-linecap:square"
+       id="rect18-2"
+       width="209.96417"
+       height="0.75590551"
+       x="5.1204357"
+       y="-416.79285"
+       transform="rotate(90)" />
+    <rect
+       style="fill:#000000;stroke-width:0.755906;stroke-linecap:square"
+       id="rect17-7-2-1"
+       width="4.7213769"
+       height="0.75590551"
+       x="371.03693"
+       y="204.90105" />
+    <rect
+       style="fill:#000000;stroke-width:0.755906;stroke-linecap:square"
+       id="rect17-7-2-1-7"
+       width="9.2092609"
+       height="0.75590551"
+       x="406.82767"
+       y="204.90105" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.377953;stroke-linecap:square;stroke-dasharray:none"
+       d="m 387.25616,6.328381 h -1.26783 v 0.828177 h 1.28828"
+       id="path18" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.377953;stroke-linecap:square;stroke-dasharray:none"
+       d="m 411.36213,7.1615618 h 1.26783 v -0.828177 h -1.28828"
+       id="path18-1" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.18897638;stroke-linecap:square;stroke-dasharray:none"
+       d="m 386.63247,6.742469 25.35335,0.005"
+       id="path19" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-size:2.66667px;line-height:1;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Italic';text-align:center;letter-spacing:0.0291042px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
+       x="398.87228"
+       y="7.3712301"
+       id="text16-7"><tspan
+         sodipodi:role="line"
+         style="font-size:2.66667px;line-height:1;fill:#000000;stroke:none;stroke-width:0.2"
+         x="398.87228"
+         y="7.3712301"
+         id="tspan20">Iron Curtain</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.66667px;line-height:1;fill:#000000;stroke:none;stroke-width:0.2"
+         x="398.87228"
+         y="10.0379"
+         id="tspan18-7" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-size:4px;line-height:1;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Italic';text-align:center;letter-spacing:0.0291042px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
+       x="400.70718"
+       y="11.190835"
+       id="text16-7-1"><tspan
+         sodipodi:role="line"
+         style="font-size:4px;line-height:1;fill:#000000;stroke:none;stroke-width:0.2"
+         x="400.72174"
+         y="11.190835"
+         id="tspan18-7-8">Inside of 'garage'</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-size:4px;line-height:1;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Italic';text-align:center;letter-spacing:0.0291042px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:square"
+       x="399.13141"
+       y="3.4896812"
+       id="text16-7-1-2"><tspan
+         sodipodi:role="line"
+         style="font-size:4px;line-height:1;fill:#000000;stroke:none;stroke-width:0.2"
+         x="399.14597"
+         y="3.4896812"
+         id="tspan18-7-8-8">'Outside' of 'garage'</tspan></text>
   </g>
 </svg>
