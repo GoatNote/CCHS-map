@@ -1,0 +1,10 @@
+name: Test B
+x: 400
+y: 110
+label_x: 410
+label_y: 100
+type: test
+recency: current
+date_built: 2025-06
+zone: test
+

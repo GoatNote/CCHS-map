@@ -9,3 +9,5 @@ specs: [design]
 status: active
 owner: Hank
 description: LED colour-field rendering piece for the community/environment slot.
+date_built:  2026-06
+zone: demo-scene

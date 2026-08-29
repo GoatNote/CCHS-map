@@ -1,0 +1,10 @@
+name: Test A
+x: 400
+y: 100
+label_x: 410
+label_y: 90
+type: test
+recency: current
+date_built: 2023-01
+images: [test.png]
+zone: test

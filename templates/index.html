@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CCHS project map — v0.1</title>
+<title>CCHS project map — v0.4</title>
 <style>
   body { font-family: sans-serif; background: #f1efe8; color: #2c2c2a; padding: 2rem; }
   button, select { padding: 6px 12px; border-radius: 6px; border: 1px solid #b4b2a9; background: white; }
@@ -28,11 +28,59 @@
   .pin { position: absolute; width: 8px; height: 8px; border-radius: 50%;
          background: #534ab7; transform: translate(-50%, -50%); z-index: 2; }
   svg.connectors { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+  
+  
+  .panel-header { min-height: 48px; display: flex; flex-direction: column;
+    justify-content: flex-end; margin-bottom: 8px; }
+
+  .tree-root-bubble {
+    border-radius: 20px; background: #f3f1fb; padding: 14px; text-align: center;
+  }
+  .tree-root-bubble > .root-label {
+    font-weight: 700; font-size: 15px; color: #2c2c2a; margin-bottom: 10px;
+  }
+  .primary-bubble {
+    background: #ddd6f7; border-radius: 16px; padding: 10px 12px; margin-bottom: 10px;
+    text-align: left;
+  }
+  .secondary-bubble {
+    background: #b8a9ec; border-radius: 12px; padding: 8px 10px; margin: 6px 0;
+  }
+  .branch-header { font-weight: 700; font-size: 13px; color: #26215c; cursor: pointer; margin-bottom: 6px; }
+  .branch-header.sub { font-weight: 600; font-size: 12px; color: #2c2c2a; margin-bottom: 4px; }
+  .branch-header::before { content: "▾ "; }
+  .branch-header.collapsed::before { content: "▸ "; }
+  .tree-children.collapsed { display: none; }
+  
+  .leaf-wrap { display: flex; flex-direction: column; gap: 6px; }
+  
+  .tree-item { padding: 6px 10px; border-radius: 8px; font-size: 13px;
+    background: #7d64d1; color: #fff; cursor: pointer; border: 2px solid transparent; }
+  .tree-item.selected { border-color: #26215c; font-weight: 600; }
+ 
+  
+  .select-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: #26215c; margin-right: 8px; cursor: pointer;
+  }
+  .tree-item-wrap.dimmed { opacity: 0.3; }
+  .tree-item-detail {
+    background: #fff; border-radius: 8px; padding: 8px 10px; margin-top: 4px;
+    font-size: 12px; color: #2c2c2a;
+  }
+  .tree-item-detail .image-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .tree-item-detail .image-strip img { max-width: 140px; max-height: 140px; object-fit: cover; border-radius: 6px; }
+  
+  .tree-controls {
+    display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
+    margin-bottom: 1.5em;
+  }
+
 </style>
 </head>
 <body>
 
-<h2>CCHS project map — v0.2</h2>
+<h2>CCHS project map — v0.4</h2>
 
 <div class="panels">
   <div class="panel-col">
@@ -48,15 +96,24 @@
   
   
   <div class="panel-col">
-    <h3>
-      Project tree
-      <select id="axis" onchange="render()" style="margin-left: 8px;">
+    <div class="panel-header">
+      <strong>Tree by</strong>
+      <span> <span>
+      <span> <span>
+      <select id="primary-axis" onchange="render()">
         <option value="type">Type</option>
         <option value="recency">Recency</option>
-        <option value="specs">Specs</option>
+        <option value="zone">Zone</option>
       </select>
-    </h3>
+      <span>then</span>
+      <select id="secondary-axis" onchange="render()">
+        <option value="type">Type</option>
+        <option value="recency">Recency</option>
+        <option value="zone">Zone</option>
+      </select>
+    </div>
     <div id="tree-view"></div>
+    <div id="detail-panel" class="detail-panel" style="display:none;"></div>
   </div>
 </div>
 
@@ -65,13 +122,170 @@
 let projects = [];
 let selected = null;
 
-function labelOffset(p) {
-  return { lx: p.x + 60, ly: p.y - 30 };
-}
-
-function selectProject(name) {
+function selectProject(name, e) {
+  if (e) e.stopPropagation();          // stop it also triggering the coord-reader
   selected = (selected === name) ? null : name;
   render();
+}
+
+const RECENCY_ORDER = ['current', 'living-memory', 'eons-past',];
+//const FUN_FACTOR = ['']
+
+function sortedKeys(obj, orderList) {
+  return Object.keys(obj).sort((a, b) => {
+    const ia = orderList.indexOf(a), ib = orderList.indexOf(b);
+    if (ia === -1 && ib === -1) return a.localeCompare(b);
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
+}
+
+function toggleBranch(headerEl) {
+  headerEl.nextElementSibling.classList.toggle('collapsed');
+}
+
+let expanded = new Set();
+
+function toggleExpand(name, e) {
+  e.stopPropagation();
+  if (expanded.has(name)) expanded.delete(name);
+  else expanded.add(name);
+  render();
+}
+
+function buildTree(primaryAxis, secondaryAxis) {
+  const tree = {};
+  projects.forEach(p => {
+    const a = p[primaryAxis] || 'unspecified';
+    const b = p[secondaryAxis] || 'unspecified';
+    tree[a] = tree[a] || {};
+    tree[a][b] = tree[a][b] || [];
+    tree[a][b].push(p);
+  });
+  return tree;
+}
+
+function renderTree() {
+  const container = document.getElementById('tree-view');
+  container.innerHTML = '';
+
+  const rootBubble = document.createElement('div');
+  rootBubble.className = 'tree-root-bubble';
+
+  const rootLabel = document.createElement('div');
+  rootLabel.className = 'root-label';
+  rootLabel.textContent = 'Aedificamus communitatem';
+  rootBubble.appendChild(rootLabel);
+
+  const primaryAxis = document.getElementById('primary-axis').value;
+  let secondaryAxis = document.getElementById('secondary-axis').value;
+  if (secondaryAxis === primaryAxis) {
+    // fall back to the first non-matching option
+    secondaryAxis = ['type', 'recency', 'zone'].find(a => a !== primaryAxis);
+  }
+
+  const tree = buildTree(primaryAxis, secondaryAxis);
+  const primaryOrder = primaryAxis === 'recency' ? RECENCY_ORDER : null;
+  const primaryKeys = primaryOrder ? sortedKeys(tree, primaryOrder) : Object.keys(tree).sort();
+
+  primaryKeys.forEach(pKey => {
+    const pBubble = document.createElement('div');
+    pBubble.className = 'primary-bubble';
+    const pHeader = document.createElement('div');
+    pHeader.className = 'branch-header';
+    pHeader.textContent = pKey;
+    pHeader.onclick = () => toggleBranch(pHeader);
+    pBubble.appendChild(pHeader);
+
+    const pChildren = document.createElement('div');
+    pChildren.className = 'tree-children';
+
+    const secondaryOrder = secondaryAxis === 'recency' ? RECENCY_ORDER : null;
+    const secondaryKeys = secondaryOrder
+      ? sortedKeys(tree[pKey], secondaryOrder)
+      : Object.keys(tree[pKey]).sort();
+
+    secondaryKeys.forEach(sKey => {
+      const sBubble = document.createElement('div');
+      sBubble.className = 'secondary-bubble';
+      const sHeader = document.createElement('div');
+      sHeader.className = 'branch-header sub';
+      sHeader.textContent = sKey;
+      sHeader.onclick = () => toggleBranch(sHeader);
+      sBubble.appendChild(sHeader);
+
+      const leafWrap = document.createElement('div');
+      leafWrap.className = 'tree-children leaf-wrap';
+
+      tree[pKey][sKey]
+        .sort((a, b) => {
+          const da = a.date_built, db = b.date_built;
+          if (!da && !db) return a.name.localeCompare(b.name);
+          if (!da) return 1;
+          if (!db) return -1;
+          return da.localeCompare(db);
+        })
+        .forEach(p => {
+          const isSelected = selected === p.name;
+          const isDimmed = selected && !isSelected;
+          const isExpanded = expanded.has(p.name);
+
+          const wrap = document.createElement('div');
+          wrap.className = 'tree-item-wrap' + (isDimmed ? ' dimmed' : '');
+
+          const item = document.createElement('div');
+          item.className = 'tree-item' + (isSelected ? ' selected' : '');
+          item.onclick = (e) => toggleExpand(p.name, e);
+
+          const dot = document.createElement('span');
+          dot.className = 'select-dot';
+          dot.onclick = (e) => selectProject(p.name, e);
+          item.appendChild(dot);
+
+          const label = document.createElement('span');
+          label.textContent = p.name;
+          item.appendChild(label);
+
+          wrap.appendChild(item);
+
+          if (isExpanded) {
+            const detail = document.createElement('div');
+            detail.className = 'tree-item-detail';
+            let html = '<p>' + (p.description || '') + '</p>';
+            if (p.link) html += '<a href="' + p.link + '" target="_blank">' + p.link + '</a>';
+            if (p.images && p.images.length) {
+              html += '<div class="image-strip">' +
+                p.images.map(img => '<img src="/static/images/' + img + '">').join('') +
+                '</div>';
+            }
+            detail.innerHTML = html;
+            wrap.appendChild(detail);
+          }
+
+          leafWrap.appendChild(wrap);
+        });
+
+      sBubble.appendChild(leafWrap);
+      pChildren.appendChild(sBubble);
+    });
+    pBubble.appendChild(pChildren);
+    rootBubble.appendChild(pBubble);
+  });
+
+  container.appendChild(rootBubble);
+}
+
+function renderDetail() {
+  const panel = document.getElementById('detail-panel');
+  if (!selected) { panel.style.display = 'none'; panel.innerHTML = ''; return; }
+  const p = projects.find(pr => pr.name === selected);
+  if (!p) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  panel.innerHTML =
+    '<strong>' + p.name + '</strong><br>' +
+    (p.description || '') +
+    (p.image ? '<img src="/static/images/' + p.image + '">' : '');
 }
 
 function render() {
@@ -80,53 +294,38 @@ function render() {
   overlay.innerHTML = '';
 
   projects.forEach(p => {
+    const isSelected = selected === p.name;
+    const isDimmed = selected && !isSelected;
+    const op = isDimmed ? 0.25 : 1;
+
     const pin = document.createElementNS(svgns, 'circle');
     pin.setAttribute('cx', p.x); pin.setAttribute('cy', p.y); pin.setAttribute('r', 1.2);
     pin.setAttribute('fill', '#534ab7');
+    pin.setAttribute('opacity', op);
+    pin.style.cursor = 'pointer';
+    pin.onclick = (e) => selectProject(p.name, e);
     overlay.appendChild(pin);
 
     const line = document.createElementNS(svgns, 'line');
     line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
     line.setAttribute('x2', p.label_x); line.setAttribute('y2', p.label_y);
-    line.setAttribute('stroke', '#b4b2a9'); line.setAttribute('stroke-width', '1.');
+    line.setAttribute('stroke', '#b4b2a9'); line.setAttribute('stroke-width', '0.3');
+    line.setAttribute('opacity', op);
     overlay.appendChild(line);
 
     const label = document.createElementNS(svgns, 'text');
     label.setAttribute('x', p.label_x); label.setAttribute('y', p.label_y);
-    label.setAttribute('font-size', '5'); label.setAttribute('fill', '#26215c');
+    label.setAttribute('font-size', isSelected ? '4.2' : '3.5');
+    label.setAttribute('fill', '#26215c');
+    label.setAttribute('opacity', op);
     label.textContent = p.name;
     label.style.cursor = 'pointer';
-    label.onclick = () => selectProject(p.name);
+    label.onclick = (e) => selectProject(p.name, e);
     overlay.appendChild(label);
   });
 
-  const axis = document.getElementById('axis').value;
-  const groups = {};
-  projects.forEach(p => {
-    const keys = axis === 'specs' ? (p.specs || []) : [p[axis]];
-    keys.forEach(k => { (groups[k] = groups[k] || []).push(p); });
-  });
-
-  const tree = document.getElementById('tree-view');
-  tree.innerHTML = '';
-  Object.keys(groups).forEach(k => {
-    const col = document.createElement('div');
-    col.className = 'tree-col';
-    const h = document.createElement('h4');
-    h.textContent = k;
-    col.appendChild(h);
-    const itemsRow = document.createElement('div');
-    itemsRow.className = 'items';
-    groups[k].forEach(p => {
-      const item = document.createElement('div');
-      item.className = 'tree-item' + (selected === p.name ? ' selected' : '');
-      item.textContent = p.name;
-      item.onclick = () => selectProject(p.name);
-      itemsRow.appendChild(item);
-    });
-    col.appendChild(itemsRow);
-    tree.appendChild(col);
-  });
+  renderTree();
+  renderDetail();
 }
 
 document.getElementById('overlay').addEventListener('click', function(e) {

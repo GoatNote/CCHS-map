@@ -1,0 +1,9 @@
+name: Test C
+x: 400
+y: 120
+label_x: 410
+label_y: 110
+type: test
+recency: current
+zone: test
+
