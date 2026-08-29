@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CCHS project map — v0.4</title>
+<title>CCHS project map — v0.5</title>
 <style>
   body { font-family: sans-serif; background: #f1efe8; color: #2c2c2a; padding: 2rem; }
   button, select { padding: 6px 12px; border-radius: 6px; border: 1px solid #b4b2a9; background: white; }
@@ -56,13 +56,14 @@
   
   .tree-item { padding: 6px 10px; border-radius: 8px; font-size: 13px;
     background: #7d64d1; color: #fff; cursor: pointer; border: 2px solid transparent; }
-  .tree-item.selected { border-color: #26215c; font-weight: 600; }
+  .tree-item.highlighted {
+    border-color: #f0c419;
+    border-width: 3px;
+    font-weight: 700;
+  }
  
   
-  .select-dot {
-    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-    background: #26215c; margin-right: 8px; cursor: pointer;
-  }
+  
   .tree-item-wrap.dimmed { opacity: 0.3; }
   .tree-item-detail {
     background: #fff; border-radius: 8px; padding: 8px 10px; margin-top: 4px;
@@ -80,7 +81,7 @@
 </head>
 <body>
 
-<h2>CCHS project map — v0.4</h2>
+<h2>CCHS project map — v0.5</h2>
 
 <div class="panels">
   <div class="panel-col">
@@ -120,13 +121,6 @@
 
 <script>
 let projects = [];
-let selected = null;
-
-function selectProject(name, e) {
-  if (e) e.stopPropagation();          // stop it also triggering the coord-reader
-  selected = (selected === name) ? null : name;
-  render();
-}
 
 const RECENCY_ORDER = ['current', 'living-memory', 'eons-past',];
 //const FUN_FACTOR = ['']
@@ -227,21 +221,14 @@ function renderTree() {
           return da.localeCompare(db);
         })
         .forEach(p => {
-          const isSelected = selected === p.name;
-          const isDimmed = selected && !isSelected;
-          const isExpanded = expanded.has(p.name);
+          const isHighlighted = expanded.has(p.name);
 
           const wrap = document.createElement('div');
-          wrap.className = 'tree-item-wrap' + (isDimmed ? ' dimmed' : '');
+          wrap.className = 'tree-item-wrap';
 
           const item = document.createElement('div');
-          item.className = 'tree-item' + (isSelected ? ' selected' : '');
+          item.className = 'tree-item' + (isHighlighted ? ' highlighted' : '');
           item.onclick = (e) => toggleExpand(p.name, e);
-
-          const dot = document.createElement('span');
-          dot.className = 'select-dot';
-          dot.onclick = (e) => selectProject(p.name, e);
-          item.appendChild(dot);
 
           const label = document.createElement('span');
           label.textContent = p.name;
@@ -249,14 +236,14 @@ function renderTree() {
 
           wrap.appendChild(item);
 
-          if (isExpanded) {
+          if (isHighlighted) {
             const detail = document.createElement('div');
             detail.className = 'tree-item-detail';
             let html = '<p>' + (p.description || '') + '</p>';
             if (p.link) html += '<a href="' + p.link + '" target="_blank">' + p.link + '</a>';
             if (p.images && p.images.length) {
               html += '<div class="image-strip">' +
-                p.images.map(img => '<img src="/static/images/' + img + '">').join('') +
+                p.images.map(img => '<img src="static/images/' + img + '">').join('') +
                 '</div>';
             }
             detail.innerHTML = html;
@@ -276,56 +263,43 @@ function renderTree() {
   container.appendChild(rootBubble);
 }
 
-function renderDetail() {
-  const panel = document.getElementById('detail-panel');
-  if (!selected) { panel.style.display = 'none'; panel.innerHTML = ''; return; }
-  const p = projects.find(pr => pr.name === selected);
-  if (!p) { panel.style.display = 'none'; return; }
-  panel.style.display = 'block';
-  panel.innerHTML =
-    '<strong>' + p.name + '</strong><br>' +
-    (p.description || '') +
-    (p.image ? '<img src="/static/images/' + p.image + '">' : '');
-}
-
 function render() {
   const svgns = "http://www.w3.org/2000/svg";
   const overlay = document.getElementById('overlay');
   overlay.innerHTML = '';
 
   projects.forEach(p => {
-    const isSelected = selected === p.name;
-    const isDimmed = selected && !isSelected;
-    const op = isDimmed ? 0.25 : 1;
+    const isHighlighted = expanded.has(p.name);
 
     const pin = document.createElementNS(svgns, 'circle');
-    pin.setAttribute('cx', p.x); pin.setAttribute('cy', p.y); pin.setAttribute('r', 1.2);
-    pin.setAttribute('fill', '#534ab7');
-    pin.setAttribute('opacity', op);
+    pin.setAttribute('cx', p.x); pin.setAttribute('cy', p.y);
+    pin.setAttribute('r', isHighlighted ? '2' : '1.2');
+    pin.setAttribute('fill', isHighlighted ? '#FF4747' : '#534ab7');
+    pin.setAttribute('stroke', isHighlighted ? '#FF8000' : 'none');
+    pin.setAttribute('stroke-width', '0.4');
     pin.style.cursor = 'pointer';
-    pin.onclick = (e) => selectProject(p.name, e);
+    pin.onclick = (e) => toggleExpand(p.name, e);
     overlay.appendChild(pin);
 
     const line = document.createElementNS(svgns, 'line');
     line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
     line.setAttribute('x2', p.label_x); line.setAttribute('y2', p.label_y);
-    line.setAttribute('stroke', '#b4b2a9'); line.setAttribute('stroke-width', '0.3');
-    line.setAttribute('opacity', op);
+    line.setAttribute('stroke', isHighlighted ? '#FF8000' : '#b4b2a9');
+    line.setAttribute('stroke-width', isHighlighted ? '0.6' : '0.3');
     overlay.appendChild(line);
 
     const label = document.createElementNS(svgns, 'text');
     label.setAttribute('x', p.label_x); label.setAttribute('y', p.label_y);
-    label.setAttribute('font-size', isSelected ? '4.2' : '3.5');
-    label.setAttribute('fill', '#26215c');
-    label.setAttribute('opacity', op);
+    label.setAttribute('font-size', isHighlighted ? '4.5' : '3.5');
+    label.setAttribute('font-weight', isHighlighted ? '700' : '400');
+    label.setAttribute('fill', isHighlighted ? '#FF8000' : '#26215c');
     label.textContent = p.name;
     label.style.cursor = 'pointer';
-    label.onclick = (e) => selectProject(p.name, e);
+    label.onclick = (e) => toggleExpand(p.name, e);
     overlay.appendChild(label);
   });
 
   renderTree();
-  renderDetail();
 }
 
 document.getElementById('overlay').addEventListener('click', function(e) {
@@ -349,11 +323,11 @@ document.getElementById('overlay').addEventListener('click', function(e) {
   dot.setAttribute('cx', svgP.x);
   dot.setAttribute('cy', svgP.y);
   dot.setAttribute('r', 1.5);
-  dot.setAttribute('fill', '#c0392b');
+  dot.setAttribute('fill', '#FF4747'); //FF4747
   svg.appendChild(dot);
 });
 
-fetch('/api/projects')
+fetch('projects.json')
   .then(r => r.json())
   .then(data => { projects = data; render(); });
 </script>

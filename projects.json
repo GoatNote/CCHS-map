@@ -1,0 +1,102 @@
+[
+  {
+    "name": "desks",
+    "x": 379.5,
+    "y": 141.2,
+    "label_x": 356.0,
+    "label_y": 139.5,
+    "type": "utility",
+    "recency": "eons-past",
+    "specs": [
+      "design"
+    ],
+    "status": "active",
+    "owner": "CCHS_ghosts",
+    "description": "Raised level surfaces around which chairs are arrayed and under which heaters are fired in the winter. One may eat at a desk, socialise, or lock in.",
+    "date_built": "2011-01",
+    "zone": "desks",
+    "_file": "desks.yaml"
+  },
+  {
+    "name": "HackSynth",
+    "x": 412.9,
+    "y": 156.3,
+    "label_x": 446.6,
+    "label_y": 152.6,
+    "type": "fun",
+    "status": "active",
+    "recency": "current",
+    "date_built": "2025-08",
+    "link": "https://github.com/PancakeLegend/HackSynth/wiki",
+    "zone": "demo-scene",
+    "_file": "hacksynth.yaml"
+  },
+  {
+    "name": "Stonefruit Sea",
+    "x": 412,
+    "y": 160,
+    "label_x": 420,
+    "label_y": 150,
+    "type": "fun",
+    "recency": "current",
+    "specs": [
+      "design"
+    ],
+    "status": "active",
+    "owner": "Hank",
+    "description": "LED colour-field rendering piece for the community/environment slot.",
+    "date_built": "2026-06",
+    "zone": "demo-scene",
+    "_file": "stonefruit-sea.yaml"
+  },
+  {
+    "name": "Test A",
+    "x": 400,
+    "y": 100,
+    "label_x": 410,
+    "label_y": 90,
+    "type": "test",
+    "recency": "current",
+    "date_built": "2023-01",
+    "images": [
+      "test.png"
+    ],
+    "zone": "test",
+    "_file": "test-a.yaml"
+  },
+  {
+    "name": "Test B",
+    "x": 400,
+    "y": 110,
+    "label_x": 410,
+    "label_y": 100,
+    "type": "test",
+    "recency": "current",
+    "date_built": "2025-06",
+    "zone": "test",
+    "_file": "test-b.yaml"
+  },
+  {
+    "name": "Test C",
+    "x": 400,
+    "y": 120,
+    "label_x": 410,
+    "label_y": 110,
+    "type": "test",
+    "recency": "current",
+    "zone": "test",
+    "_file": "test-c.yaml"
+  },
+  {
+    "name": "Test D",
+    "x": 400,
+    "y": 130,
+    "label_x": 410,
+    "label_y": 120,
+    "type": "test",
+    "recency": "eons-past",
+    "date_built": "2020-01",
+    "zone": "test",
+    "_file": "test-d.yaml"
+  }
+]
