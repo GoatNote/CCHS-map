@@ -24,7 +24,6 @@ static/
 index.html            the whole app — floor plan, tree, all JS/CSS inline
 build_json.py         generates projects.json from projects/*.yaml
 projects.json          generated snapshot — what index.html actually fetches
-app.py                 optional: local Flask preview server (not used in hosting)
 ```
 
 **Static hosting, not a live backend.** `index.html` fetches `projects.json` —
@@ -59,7 +58,7 @@ history. `git log` on a file *is* the audit trail.
 
 ### Finding coordinates
 
-Run the app locally (`python app.py`, see below) and click anywhere on the
+Click anywhere on the
 floor plan — it prints the exact `x, y` in the console/on-page readout, in the
 same coordinate space the YAML fields use. Click twice per project: once for
 the pin, once for where you want its label to sit.
@@ -86,10 +85,6 @@ the pin, once for where you want its label to sit.
   
 5. Upload/push to hosting
   
-
-`app.py` (`python app.py`, port 5050) is a separate, optional live-reload
-preview — it reads YAML directly on every request, no rebuild step needed.
-Handy for quick iteration; not used by the deployed static site.
 
 ## Hosting (Bluehost)
 
