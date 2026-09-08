@@ -90,7 +90,7 @@
 		Click the map to read coordinates
 	</div>
 	<div id="floor-view">
-		<object type="image/svg+xml" data="/static/CCHS_map_fixed.svg" style="position:absolute; inset:0; width:100%; height:100%;"></object>
+		<object type="image/svg+xml" data="https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/static/CCHS_map_fixed.svg" style="position:absolute; inset:0; width:100%; height:100%;"></object>
 		<svg id="overlay" viewBox="320 -10 165 305" style="position:absolute; inset:0; width:100%; height:100%;"></svg>
 	</div>
   </div>
@@ -327,7 +327,7 @@ document.getElementById('overlay').addEventListener('click', function(e) {
   svg.appendChild(dot);
 });
 
-fetch('projects.json')
+fetch('https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/projects.json')
   .then(r => r.json())
   .then(data => { projects = data; render(); });
 </script>
