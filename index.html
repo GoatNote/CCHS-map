@@ -90,7 +90,7 @@
 		Click the map to read coordinates
 	</div>
 	<div id="floor-view">
-		<object type="image/svg+xml" data="/static/CCHS_map_fixed.svg" style="position:absolute; inset:0; width:100%; height:100%;"></object>
+		<div id="basemap" style="position:absolute; inset:0;"></div>
 		<svg id="overlay" viewBox="320 -10 165 305" style="position:absolute; inset:0; width:100%; height:100%;"></svg>
 	</div>
   </div>
@@ -327,7 +327,26 @@ document.getElementById('overlay').addEventListener('click', function(e) {
   svg.appendChild(dot);
 });
 
-fetch('projects.json')
+const MAP_URL = 'https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/static/CCHS_map_fixed.svg';
+
+// raw.githubusercontent.com sends X-Frame-Options: deny, so the map cannot be
+// embedded with <object>/<iframe>. Fetch it (CORS is open) and inline it instead,
+// re-framing it onto the overlay's viewBox so the pins line up.
+fetch(MAP_URL)
+  .then(r => r.text())
+  .then(text => {
+    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    const svg = doc.documentElement;
+    if (svg.nodeName === 'parsererror') throw new Error('map SVG did not parse');
+    svg.setAttribute('viewBox', '320 -10 165 305');
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+    svg.setAttribute('style', 'position:absolute; inset:0; width:100%; height:100%;');
+    document.getElementById('basemap').appendChild(document.importNode(svg, true));
+  })
+  .catch(err => console.error('floor plan failed to load:', err));
+
+fetch('https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/projects.json')
   .then(r => r.json())
   .then(data => { projects = data; render(); });
 </script>
