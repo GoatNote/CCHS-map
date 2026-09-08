@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CCHS project map — v0.5</title>
+<title>CCHS project map — v0.6</title>
 <style>
   body { font-family: sans-serif; background: #f1efe8; color: #2c2c2a; padding: 2rem; }
   button, select { padding: 6px 12px; border-radius: 6px; border: 1px solid #b4b2a9; background: white; }
@@ -81,7 +81,7 @@
 </head>
 <body>
 
-<h2>CCHS project map — v0.5</h2>
+<h2>CCHS project map — v0.6</h2>
 
 <div class="panels">
   <div class="panel-col">
@@ -243,7 +243,7 @@ function renderTree() {
             if (p.link) html += '<a href="' + p.link + '" target="_blank">' + p.link + '</a>';
             if (p.images && p.images.length) {
               html += '<div class="image-strip">' +
-                p.images.map(img => '<img src="static/images/' + img + '">').join('') +
+                p.images.map(img => '<img src="' + IMAGES_BASE_URL + img + '">').join('') +
                 '</div>';
             }
             detail.innerHTML = html;
@@ -328,6 +328,7 @@ document.getElementById('overlay').addEventListener('click', function(e) {
 });
 
 const MAP_URL = 'https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/static/CCHS_map_fixed.svg';
+const IMAGES_BASE_URL = 'https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/static/images/';
 
 // raw.githubusercontent.com sends X-Frame-Options: deny, so the map cannot be
 // embedded with <object>/<iframe>. Fetch it (CORS is open) and inline it instead,
