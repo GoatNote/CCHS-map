@@ -1,5 +1,19 @@
 [
   {
+    "name": "CCHS_map",
+    "x": 424.1,
+    "y": 46.7,
+    "label_x": 434.1,
+    "label_y": 44.6,
+    "type": "infrastructure",
+    "status": "active",
+    "recency": "current",
+    "date_built": "2025-09",
+    "link": "https://github.com/GoatNote/CCHS-map",
+    "zone": "cyberspace",
+    "_file": "cchs_map.yaml"
+  },
+  {
     "name": "desks",
     "x": 379.5,
     "y": 141.2,
