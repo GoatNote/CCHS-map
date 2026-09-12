@@ -1,8 +1,8 @@
 name: desks
 x: 379.5
 y: 141.2
-label_x: 356.0
-label_y: 139.5
+label_x: 0
+label_y: 141.2
 type: utility
 recency: eons-past
 specs: [design]
