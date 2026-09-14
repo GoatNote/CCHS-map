@@ -1,8 +1,8 @@
-name: Stonefruit Sea
-x: 412
-y: 160
-label_x: 420
-label_y: 150
+name: Overhead LEDs hotswappable demo boards
+x: 421
+y: 260
+label_x: 472
+label_y: 262
 type: fun
 recency: current
 specs: [design]

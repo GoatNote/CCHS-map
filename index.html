@@ -9,118 +9,79 @@
   .panels { display: flex; gap: 16px; margin-top: 1rem; align-items: flex-start; }
   .panel-col { flex: 1 1 50%; display: flex; flex-direction: column; }
   .panel-col h3 { margin: 0 0 8px; font-size: 15px; }
-  #floor-view { flex: none; }
-  
-  #floor-view { position: relative; width: 100%; aspect-ratio: 165 / 305;
-              background: #fff; border-radius: 8px; border: 1px solid #b4b2a9; overflow: hidden; }
-  #tree-view {  display: flex; flex-direction: column; gap: 12px; }
-  .tree-col { background: #f1efe8; border-radius: 8px; padding: 12px;
-            display: flex; flex-direction: column; gap: 8px; }
-  .tree-col.items { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tree-col h4 { margin: 0; font-size: 13px; color: #5f5e5a; min-width: 90px; }
-  .tree-item { padding: 6px 10px; border-radius: 8px; font-size: 13px; margin-bottom: 6px;
-               background: #eeedfe; color: #26215c; cursor: pointer; border: 2px solid transparent; }
-  .tree-item.selected { border-color: #534ab7; }
-  .bubble { position: absolute; width: 100px; padding: 6px 8px; border-radius: 12px;
-            font-size: 12px; text-align: center; color: #26215c; background: #eeedfe;
-            border: 2px solid transparent; transform: translate(-50%, -50%); z-index: 2; }
-  .bubble.selected { border-color: #534ab7; }
-  .pin { position: absolute; width: 8px; height: 8px; border-radius: 50%;
-         background: #534ab7; transform: translate(-50%, -50%); z-index: 2; }
-  svg.connectors { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-  
-  
-  .panel-header { min-height: 48px; display: flex; flex-direction: column;
-    justify-content: flex-end; margin-bottom: 8px; }
+  #floor-view {
+    position: relative;
+    width: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #b4b2a9;
+  }
+  #filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .filter-chip {
+    padding: 6px 14px; border-radius: 16px; font-size: 13px; cursor: pointer;
+    background: #eeedfe; color: #26215c; border: 2px solid transparent;
+  }
+  .filter-chip.active { background: #534ab7; color: #fff; border-color: #26215c; }
 
-  .tree-root-bubble {
-    border-radius: 20px; background: #f3f1fb; padding: 14px; text-align: center;
+  .filter-row { margin-bottom: 10px; }
+  .filter-row-title { font-weight: 700; font-size: 12px; color: #5f5e5a; margin-bottom: 4px; }
+  .filter-row-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .inline-pill {
+    display: inline-block; padding: 2px 10px; border-radius: 12px;
+    background: #534ab7; color: #fff; font-size: 12px; font-weight: 600;
+    margin: 0 2px;
   }
-  .tree-root-bubble > .root-label {
-    font-weight: 700; font-size: 15px; color: #2c2c2a; margin-bottom: 10px;
-  }
-  .primary-bubble {
-    background: #ddd6f7; border-radius: 16px; padding: 10px 12px; margin-bottom: 10px;
-    text-align: left;
-  }
-  .secondary-bubble {
-    background: #b8a9ec; border-radius: 12px; padding: 8px 10px; margin: 6px 0;
-  }
-  .branch-header { font-weight: 700; font-size: 13px; color: #26215c; cursor: pointer; margin-bottom: 6px; }
-  .branch-header.sub { font-weight: 600; font-size: 12px; color: #2c2c2a; margin-bottom: 4px; }
-  .branch-header::before { content: "▾ "; }
-  .branch-header.collapsed::before { content: "▸ "; }
-  .tree-children.collapsed { display: none; }
   
-  .leaf-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .qualifier { font-size: 11px; color: #999; font-style: italic; }
   
-  .tree-item { padding: 6px 10px; border-radius: 8px; font-size: 13px;
-    background: #7d64d1; color: #fff; cursor: pointer; border: 2px solid transparent; }
-  .tree-item.highlighted {
-    border-color: #f0c419;
-    border-width: 3px;
-    font-weight: 700;
+  .project-card {
+    position: absolute; transform: translate(-50%, -50%);
+    width: 140px; background: #fff; border-radius: 10px; padding: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); cursor: pointer;
+    pointer-events: auto; transition: opacity 0.15s;
+    font-size: 12px; text-align: center;
   }
- 
-  
-  
-  .tree-item-wrap.dimmed { opacity: 0.3; }
-  .tree-item-detail {
-    background: #fff; border-radius: 8px; padding: 8px 10px; margin-top: 4px;
-    font-size: 12px; color: #2c2c2a;
-  }
-  .tree-item-detail .image-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
-  .tree-item-detail .image-strip img { max-width: 140px; max-height: 140px; object-fit: cover; border-radius: 6px; }
-  
-  .tree-controls {
-    display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
-    margin-bottom: 1.5em;
-  }
+  .project-card img { width: 100%; height: 70px; object-fit: cover; border-radius: 6px; margin-bottom: 4px; }
+  .project-card .card-name { font-weight: 700; color: #26215c; }
+  .project-card.matched { opacity: 1; z-index: 5; }
+  .project-card.unmatched { opacity: 0.25; z-index: 1; }
+  .project-card .card-detail { margin-top: 6px; text-align: left; font-size: 11px; }
+  .project-card .card-detail .image-strip { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .project-card .card-detail .image-strip img { width: 60px; height: 60px; }
 
+  #match-count { font-size: 13px; margin-bottom: 12px; }
 </style>
+
 </head>
 <body>
 
 <h2>CCHS project map — v0.6</h2>
+<div id="instructions" style="font-size:13px; color:#5f5e5a; margin-bottom:12px;">
+  Click on labels to expand them. Labels are draggable! 
+  Click filters to explore tagged projects.
+  Update projects via git pull requests on the official repo (ask for more details if curious)
+</div>
+<div id="coord-readout" style="font-size:13px; color:#5f5e5a; margin-bottom:10px;">
+  Click the map to read coordinates
+</div>
+<div id="filter-bar"></div>
+<div id="match-count"></div>
 
-<div class="panels">
-  <div class="panel-col">
-    <h3>Floor plan</h3>
-    <div id="coord-readout" style="font-size:13px; color:#5f5e5a; margin-bottom:6px;">
-		Click the map to read coordinates
-	</div>
-	<div id="floor-view">
-		<div id="basemap" style="position:absolute; inset:0;"></div>
-		<svg id="overlay" viewBox="320 -10 165 305" style="position:absolute; inset:0; width:100%; height:100%;"></svg>
-	</div>
-  </div>
-  
-  
-  <div class="panel-col">
-    <div class="panel-header">
-      <strong>Tree by</strong>
-      <span> <span>
-      <span> <span>
-      <select id="primary-axis" onchange="render()">
-        <option value="type">Type</option>
-        <option value="recency">Recency</option>
-        <option value="zone">Zone</option>
-      </select>
-      <span>then</span>
-      <select id="secondary-axis" onchange="render()">
-        <option value="type">Type</option>
-        <option value="recency">Recency</option>
-        <option value="zone">Zone</option>
-      </select>
-    </div>
-    <div id="tree-view"></div>
-    <div id="detail-panel" class="detail-panel" style="display:none;"></div>
-  </div>
+<div id="floor-view" style="position:relative; width:100%;">
+  <div id="basemap" style="position:absolute; inset:0;"></div>
+  <svg id="overlay" style="position:relative; inset:0; width:100%; height:100%;"></svg>
+  <div id="cards-layer" style="position:absolute; inset:0; pointer-events:none;"></div>
 </div>
 
 
 <script>
 let projects = [];
+
+//gather hardcoded aspect ratio stuff into one place.
+const VIEW_X = 320, VIEW_Y = -10, VIEW_W = 165, VIEW_H = 500;
+const VIEWBOX = VIEW_X + ' ' + VIEW_Y + ' ' + VIEW_W + ' ' + VIEW_H;
 
 const RECENCY_ORDER = ['current', 'living-memory', 'eons-past',];
 //const FUN_FACTOR = ['']
@@ -148,120 +109,189 @@ function toggleExpand(name, e) {
   render();
 }
 
-function buildTree(primaryAxis, secondaryAxis) {
-  const tree = {};
+let activeFilters = new Set();
+
+function buildFilterOptions() {
+  const values = new Set();
   projects.forEach(p => {
-    const a = p[primaryAxis] || 'unspecified';
-    const b = p[secondaryAxis] || 'unspecified';
-    tree[a] = tree[a] || {};
-    tree[a][b] = tree[a][b] || [];
-    tree[a][b].push(p);
+    [p.type, p.recency, p.zone].forEach(v => { if (v) values.add(v); });
   });
-  return tree;
+  return Array.from(values).sort();
 }
 
-function renderTree() {
-  const container = document.getElementById('tree-view');
-  container.innerHTML = '';
+function toggleFilter(value) {
+  if (activeFilters.has(value)) activeFilters.delete(value);
+  else activeFilters.add(value);
+  render();
+}
 
-  const rootBubble = document.createElement('div');
-  rootBubble.className = 'tree-root-bubble';
+function buildFilterGroups() {
+  const groups = { Type: new Set(), Recency: new Set(), Zone: new Set() };
+  projects.forEach(p => {
+    if (p.type) groups.Type.add(p.type);
+    if (p.recency) groups.Recency.add(p.recency);
+    if (p.zone) groups.Zone.add(p.zone);
+  });
+  return groups;
+}
 
-  const rootLabel = document.createElement('div');
-  rootLabel.className = 'root-label';
-  rootLabel.textContent = 'Aedificamus communitatem';
-  rootBubble.appendChild(rootLabel);
+function renderFilterBar() {
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = '';
+  const groups = buildFilterGroups();
 
-  const primaryAxis = document.getElementById('primary-axis').value;
-  let secondaryAxis = document.getElementById('secondary-axis').value;
-  if (secondaryAxis === primaryAxis) {
-    // fall back to the first non-matching option
-    secondaryAxis = ['type', 'recency', 'zone'].find(a => a !== primaryAxis);
-  }
+  Object.keys(groups).forEach(label => {
+    if (groups[label].size === 0) return;
+    const row = document.createElement('div');
+    row.className = 'filter-row';
 
-  const tree = buildTree(primaryAxis, secondaryAxis);
-  const primaryOrder = primaryAxis === 'recency' ? RECENCY_ORDER : null;
-  const primaryKeys = primaryOrder ? sortedKeys(tree, primaryOrder) : Object.keys(tree).sort();
+    const title = document.createElement('div');
+    title.className = 'filter-row-title';
+    title.textContent = label;
+    row.appendChild(title);
 
-  primaryKeys.forEach(pKey => {
-    const pBubble = document.createElement('div');
-    pBubble.className = 'primary-bubble';
-    const pHeader = document.createElement('div');
-    pHeader.className = 'branch-header';
-    pHeader.textContent = pKey;
-    pHeader.onclick = () => toggleBranch(pHeader);
-    pBubble.appendChild(pHeader);
-
-    const pChildren = document.createElement('div');
-    pChildren.className = 'tree-children';
-
-    const secondaryOrder = secondaryAxis === 'recency' ? RECENCY_ORDER : null;
-    const secondaryKeys = secondaryOrder
-      ? sortedKeys(tree[pKey], secondaryOrder)
-      : Object.keys(tree[pKey]).sort();
-
-    secondaryKeys.forEach(sKey => {
-      const sBubble = document.createElement('div');
-      sBubble.className = 'secondary-bubble';
-      const sHeader = document.createElement('div');
-      sHeader.className = 'branch-header sub';
-      sHeader.textContent = sKey;
-      sHeader.onclick = () => toggleBranch(sHeader);
-      sBubble.appendChild(sHeader);
-
-      const leafWrap = document.createElement('div');
-      leafWrap.className = 'tree-children leaf-wrap';
-
-      tree[pKey][sKey]
-        .sort((a, b) => {
-          const da = a.date_built, db = b.date_built;
-          if (!da && !db) return a.name.localeCompare(b.name);
-          if (!da) return 1;
-          if (!db) return -1;
-          return da.localeCompare(db);
-        })
-        .forEach(p => {
-          const isHighlighted = expanded.has(p.name);
-
-          const wrap = document.createElement('div');
-          wrap.className = 'tree-item-wrap';
-
-          const item = document.createElement('div');
-          item.className = 'tree-item' + (isHighlighted ? ' highlighted' : '');
-          item.onclick = (e) => toggleExpand(p.name, e);
-
-          const label = document.createElement('span');
-          label.textContent = p.name;
-          item.appendChild(label);
-
-          wrap.appendChild(item);
-
-          if (isHighlighted) {
-            const detail = document.createElement('div');
-            detail.className = 'tree-item-detail';
-            let html = '<p>' + (p.description || '') + '</p>';
-            if (p.link) html += '<a href="' + p.link + '" target="_blank">' + p.link + '</a>';
-            if (p.images && p.images.length) {
-              html += '<div class="image-strip">' +
-                p.images.map(img => '<img src="' + IMAGES_BASE_URL + img + '">').join('') +
-                '</div>';
-            }
-            detail.innerHTML = html;
-            wrap.appendChild(detail);
-          }
-
-          leafWrap.appendChild(wrap);
-        });
-
-      sBubble.appendChild(leafWrap);
-      pChildren.appendChild(sBubble);
+    const chipsWrap = document.createElement('div');
+    chipsWrap.className = 'filter-row-chips';
+    Array.from(groups[label]).sort().forEach(value => {
+      const chip = document.createElement('div');
+      chip.className = 'filter-chip' + (activeFilters.has(value) ? ' active' : '');
+      chip.textContent = value;
+      chip.onclick = () => toggleFilter(value);
+      chipsWrap.appendChild(chip);
     });
-    pBubble.appendChild(pChildren);
-    rootBubble.appendChild(pBubble);
+    row.appendChild(chipsWrap);
+    bar.appendChild(row);
   });
-
-  container.appendChild(rootBubble);
 }
+
+function projectMatches(p) {
+  if (activeFilters.size === 0) return true;
+  const tags = [p.type, p.recency, p.zone];
+  return Array.from(activeFilters).every(f => tags.includes(f));
+}
+
+function toPercent(x, y) {
+  return {
+    left: ((x - VIEW_X) / VIEW_W) * 100,
+    top: ((y - VIEW_Y) / VIEW_H) * 100
+  };
+}
+
+function toSvgCoords(leftPct, topPct) {
+  return {
+    x: VIEW_X + (leftPct / 100) * VIEW_W,
+    y: VIEW_Y + (topPct / 100) * VIEW_H  // note: should be topPct, check below
+  };
+}
+
+function renderCards() {
+  const layer = document.getElementById('cards-layer');
+  layer.innerHTML = '';
+
+  projects.forEach(p => {
+    const isMatched = projectMatches(p);
+    const isExpanded = expanded.has(p.name);
+    const pos = dragOffsets.get(p.name) || toPercent(p.label_x, p.label_y);
+    
+
+
+    const card = document.createElement('div');
+    card.style.left = pos.left + '%';
+    card.style.top = pos.top + '%'; 
+    card.className = 'project-card ' + (isMatched ? 'matched' : 'unmatched');
+    card.style.left = pos.left + '%';
+    card.style.top = pos.top + '%';
+    makeCardDraggable(card, p);
+    if (isExpanded) {
+      topZ++;
+      card.style.zIndex = topZ;
+    }
+
+    let html = '';
+    if (p.images && p.images.length) {
+      html += '<img src="' + IMAGES_BASE_URL + p.images[0] + '">';
+    }
+    html += '<div class="card-name">' + p.name + '</div>';
+
+    if (isExpanded) {
+      html += '<div class="card-detail">';
+      html += '<p>' + (p.description || '') + '</p>';
+      if (p.link) html += '<a href="' + p.link + '" target="_blank">' + p.link + '</a>';
+      if (p.images && p.images.length) {
+        html += '<div class="image-strip">' +
+          p.images.map(img => '<img src="' + IMAGES_BASE_URL + img + '">').join('') +
+          '</div>';
+      }
+      html += '</div>';
+    }
+
+    card.innerHTML = html;
+    layer.appendChild(card);
+  });
+}
+
+let dragOffsets = new Map();
+let topZ = 10;
+
+function makeCardDraggable(card, p) {
+  let dragging = false;
+  let startX, startY, startLeft, startTop;
+  const layer = document.getElementById('cards-layer');
+
+  card.addEventListener('mousedown', (e) => {
+    dragging = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    const rect = layer.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    startLeft = ((cardRect.left + cardRect.width / 2) - rect.left) / rect.width * 100;
+    startTop = ((cardRect.top + cardRect.height / 2) - rect.top) / rect.height * 100;
+
+    function onMove(e2) {
+      const dx = e2.clientX - startX;
+      const dy = e2.clientY - startY;
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+        if (!dragging) {
+          dragging = true;
+          topZ++;
+          card.style.zIndex = topZ;
+        }
+        const rect2 = layer.getBoundingClientRect();
+        const newLeft = startLeft + (dx / rect2.width) * 100;
+        const newTop = startTop + (dy / rect2.height) * 100;
+        card.style.left = newLeft + '%';
+        card.style.top = newTop + '%';
+        dragOffsets.set(p.name, { left: newLeft, top: newTop });
+        
+        const svgPos = toSvgCoords(newLeft, newTop);
+        const line = document.getElementById('line-' + p.name.replace(/\s+/g, '-'));
+        if (line) {
+          line.setAttribute('x2', svgPos.x);
+          line.setAttribute('y2', svgPos.y);
+}
+      }
+    }
+
+    function onUp(e2) {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      if (!dragging) {
+        // treat as a click, not a drag
+        toggleExpand(p.name, e2);
+      }
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+}
+
+function sizeFloorView() {
+  const floorView = document.getElementById('floor-view');
+  const width = floorView.clientWidth;
+  floorView.style.height = (width * (VIEW_H / VIEW_W)) + 'px';
+}
+window.addEventListener('resize', sizeFloorView);
 
 function render() {
   const svgns = "http://www.w3.org/2000/svg";
@@ -269,38 +299,50 @@ function render() {
   overlay.innerHTML = '';
 
   projects.forEach(p => {
-    const isHighlighted = expanded.has(p.name);
+    const isMatched = projectMatches(p);
+    const dragged = dragOffsets.get(p.name);
+    const labelSvg = dragged ? toSvgCoords(dragged.left, dragged.top) : { x: p.label_x, y: p.label_y };
 
     const pin = document.createElementNS(svgns, 'circle');
-    pin.setAttribute('cx', p.x); pin.setAttribute('cy', p.y);
-    pin.setAttribute('r', isHighlighted ? '2' : '1.2');
-    pin.setAttribute('fill', isHighlighted ? '#FF4747' : '#534ab7');
-    pin.setAttribute('stroke', isHighlighted ? '#FF8000' : 'none');
-    pin.setAttribute('stroke-width', '0.4');
-    pin.style.cursor = 'pointer';
-    pin.onclick = (e) => toggleExpand(p.name, e);
+    pin.setAttribute('cx', p.x); pin.setAttribute('cy', p.y); pin.setAttribute('r', '1.2');
+    pin.setAttribute('fill', '#534ab7');
+    pin.setAttribute('opacity', isMatched ? '1' : '0.25');
     overlay.appendChild(pin);
 
     const line = document.createElementNS(svgns, 'line');
+    line.setAttribute('id', 'line-' + p.name.replace(/\s+/g, '-'));
     line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
-    line.setAttribute('x2', p.label_x); line.setAttribute('y2', p.label_y);
-    line.setAttribute('stroke', isHighlighted ? '#FF8000' : '#b4b2a9');
-    line.setAttribute('stroke-width', isHighlighted ? '0.6' : '0.3');
+    line.setAttribute('x2', labelSvg.x); line.setAttribute('y2', labelSvg.y);
+    line.setAttribute('stroke', '#b4b2a9'); line.setAttribute('stroke-width', '0.3');
+    line.setAttribute('opacity', isMatched ? '1' : '0.25');
     overlay.appendChild(line);
-
-    const label = document.createElementNS(svgns, 'text');
-    label.setAttribute('x', p.label_x); label.setAttribute('y', p.label_y);
-    label.setAttribute('font-size', isHighlighted ? '4.5' : '3.5');
-    label.setAttribute('font-weight', isHighlighted ? '700' : '400');
-    label.setAttribute('fill', isHighlighted ? '#FF8000' : '#26215c');
-    label.textContent = p.name;
-    label.style.cursor = 'pointer';
-    label.onclick = (e) => toggleExpand(p.name, e);
-    overlay.appendChild(label);
   });
+  renderFilterBar();
 
-  renderTree();
+  const matchCount = projects.filter(projectMatches).length;
+  const countEl = document.getElementById('match-count');
+
+  let html;
+  if (activeFilters.size === 0) {
+    html = 'There ' + (matchCount === 1 ? 'is ' : 'are ') + matchCount + ' project' + (matchCount === 1 ? '' : 's') + ' (documented) in the space';
+  } else {
+    const pillsHtml = Array.from(activeFilters)
+      .map(f => '<span class="inline-pill">' + f + '</span>')
+      .join(' ');
+    html = 'There ' + (matchCount === 1 ? 'is ' : 'are ') + matchCount + ' ' + pillsHtml + ' project' + (matchCount === 1 ? '' : 's') + ' (documented) in the space';
+  }
+
+  if (matchCount === 0) {
+    html += '<br><span class="qualifier">(this may be as a result of a category error, difference of opinion, and/or lack of documentation)</span>';
+  }
+
+  countEl.innerHTML = html;
+  countEl.style.color = matchCount === 0 ? '#c0392b' : '#5f5e5a';
+
+  renderCards();
 }
+
+document.getElementById('overlay').setAttribute('viewBox', VIEWBOX);
 
 document.getElementById('overlay').addEventListener('click', function(e) {
   const svg = e.currentTarget;
@@ -330,6 +372,8 @@ document.getElementById('overlay').addEventListener('click', function(e) {
 const MAP_URL = 'https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/static/CCHS_map_fixed.svg';
 const IMAGES_BASE_URL = 'https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/static/images/';
 
+
+
 // raw.githubusercontent.com sends X-Frame-Options: deny, so the map cannot be
 // embedded with <object>/<iframe>. Fetch it (CORS is open) and inline it instead,
 // re-framing it onto the overlay's viewBox so the pins line up.
@@ -339,13 +383,15 @@ fetch(MAP_URL)
     const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
     const svg = doc.documentElement;
     if (svg.nodeName === 'parsererror') throw new Error('map SVG did not parse');
-    svg.setAttribute('viewBox', '320 -10 165 305');
+    svg.setAttribute('viewBox', VIEWBOX);
     svg.removeAttribute('width');
     svg.removeAttribute('height');
     svg.setAttribute('style', 'position:absolute; inset:0; width:100%; height:100%;');
     document.getElementById('basemap').appendChild(document.importNode(svg, true));
   })
   .catch(err => console.error('floor plan failed to load:', err));
+
+sizeFloorView();
 
 fetch('https://raw.githubusercontent.com/GoatNote/CCHS-map/refs/heads/main/projects.json')
   .then(r => r.json())

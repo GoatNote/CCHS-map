@@ -1,10 +1,11 @@
 name: Test A
-x: 400
-y: 100
-label_x: 410
-label_y: 90
+x: 422
+y: 365
+label_x: 455
+label_y: 375
 type: test
 recency: current
 date_built: 2023-01
 images: [test.png]
 zone: test
+description: a demonstration that it is possible to add pictures to the cards

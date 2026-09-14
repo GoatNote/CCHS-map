@@ -3,8 +3,8 @@
     "name": "CCHS_map",
     "x": 424.1,
     "y": 46.7,
-    "label_x": 434.1,
-    "label_y": 44.6,
+    "label_x": 457.1,
+    "label_y": 21.9,
     "type": "infrastructure",
     "status": "active",
     "recency": "current",
@@ -15,10 +15,10 @@
   },
   {
     "name": "desks",
-    "x": 379.5,
-    "y": 141.2,
-    "label_x": 140,
-    "label_y": 141.2,
+    "x": 387.7,
+    "y": 244.2,
+    "label_x": 327.1,
+    "label_y": 245.2,
     "type": "utility",
     "recency": "eons-past",
     "specs": [
@@ -33,10 +33,10 @@
   },
   {
     "name": "HackSynth",
-    "x": 412.9,
-    "y": 156.3,
-    "label_x": 446.6,
-    "label_y": 152.6,
+    "x": 420.7,
+    "y": 254.6,
+    "label_x": 468.3,
+    "label_y": 243.7,
     "type": "fun",
     "status": "active",
     "recency": "current",
@@ -46,11 +46,11 @@
     "_file": "hacksynth.yaml"
   },
   {
-    "name": "Stonefruit Sea",
-    "x": 412,
-    "y": 160,
-    "label_x": 420,
-    "label_y": 150,
+    "name": "Overhead LEDs hotswappable demo boards",
+    "x": 421,
+    "y": 260,
+    "label_x": 472,
+    "label_y": 262,
     "type": "fun",
     "recency": "current",
     "specs": [
@@ -65,10 +65,10 @@
   },
   {
     "name": "Test A",
-    "x": 400,
-    "y": 100,
-    "label_x": 410,
-    "label_y": 90,
+    "x": 422,
+    "y": 365,
+    "label_x": 455,
+    "label_y": 375,
     "type": "test",
     "recency": "current",
     "date_built": "2023-01",
@@ -76,41 +76,7 @@
       "test.png"
     ],
     "zone": "test",
+    "description": "a demonstration that it is possible to add pictures to the cards",
     "_file": "test-a.yaml"
-  },
-  {
-    "name": "Test B",
-    "x": 400,
-    "y": 110,
-    "label_x": 410,
-    "label_y": 100,
-    "type": "test",
-    "recency": "current",
-    "date_built": "2025-06",
-    "zone": "test",
-    "_file": "test-b.yaml"
-  },
-  {
-    "name": "Test C",
-    "x": 400,
-    "y": 120,
-    "label_x": 410,
-    "label_y": 110,
-    "type": "test",
-    "recency": "current",
-    "zone": "test",
-    "_file": "test-c.yaml"
-  },
-  {
-    "name": "Test D",
-    "x": 400,
-    "y": 130,
-    "label_x": 410,
-    "label_y": 120,
-    "type": "test",
-    "recency": "eons-past",
-    "date_built": "2020-01",
-    "zone": "test",
-    "_file": "test-d.yaml"
   }
 ]
