@@ -1,0 +1,11 @@
+name: Laser Cutter
+x: 420
+y: 296
+label_x: 472
+label_y: 303.5
+type: infrastructure
+status: active
+recency: current
+date_built: 2018??
+link: https://github.com/CCHS-Melbourne/Laser-Cutters
+zone: laser cutter

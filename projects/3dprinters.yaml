@@ -1,0 +1,11 @@
+name: 3D Printers
+x: 420
+y: 235
+label_x: 470
+label_y: 203.5
+type: infrastructure
+status: active
+recency: current
+date_built: 2018??
+link: https://github.com/CCHS-Melbourne/3D-Printers
+zone: laser cutter

@@ -1,0 +1,12 @@
+name: Pick and Place
+x: 382
+y: 302
+label_x: 363
+label_y: 305
+type: infrastructure
+status: dormant
+recency: living-memory
+date_built: ??
+link: https://github.com/CCHS-Melbourne/Pick-N-Place
+zone: electronics
+description: An opensource build of the kind of device that assembles modern surface mount comoponents onto circuit boards.
